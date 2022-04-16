@@ -67,6 +67,7 @@ const ChangedText = styled.div`
 
 const Toggle = () => {
   const [isOn, setIsOn] = useState(false);
+
   return (
     <Container>
       <SlideToggle isOn={isOn} onClick={() => setIsOn(!isOn)}>

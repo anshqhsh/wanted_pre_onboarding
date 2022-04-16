@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import './App.css';
 import Form from './components/form';
+import Tab from './components/tab';
 import Toggle from './components/toggle';
 
 // container
@@ -23,7 +24,7 @@ function App() {
     <Container>
       <Title>React Components</Title>
       <Form componentName={'Toggle'} componentForm={<Toggle />}></Form>
-      <Form componentName={'Tab'} componentForm={''}></Form>
+      <Form componentName={'Tab'} componentForm={<Tab />}></Form>
       <Form componentName={'Slider'} componentForm={''}></Form>
       <Form componentName={'Input'} componentForm={''}></Form>
       <Form componentName={'Dropdown'} componentForm={''}></Form>
