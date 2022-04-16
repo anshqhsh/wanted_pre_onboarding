@@ -10,17 +10,19 @@ const Box = styled.div`
 `;
 
 const SubTitle = styled.div`
+  position: absolute;
   font-size: 1rem;
   float: left;
   margin: 10px;
 `;
 
 // 각 기능별 컴포넌트 form
-const Form = ({ conponentName, renderComponent }) => {
+const Form = ({ componentName, componentForm }) => {
+  console.log(componentName);
   return (
     <Box>
-      <SubTitle>{conponentName}</SubTitle>
-      {/* {renderComponent} */}
+      <SubTitle>{componentName}</SubTitle>
+      {componentForm}
     </Box>
   );
 };

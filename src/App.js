@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import './App.css';
 import Form from './components/form';
+import Toggle from './components/toggle';
 
 // container
 const Container = styled.div`
@@ -21,11 +22,11 @@ function App() {
   return (
     <Container>
       <Title>React Components</Title>
-      <Form conponentName={'Toggle'} renderComponent={''}></Form>
-      <Form conponentName={'Tab'} renderComponent={''}></Form>
-      <Form conponentName={'Slider'} renderComponent={''}></Form>
-      <Form conponentName={'Input'} renderComponent={''}></Form>
-      <Form conponentName={'Dropdown'} renderComponent={''}></Form>
+      <Form componentName={'Toggle'} componentForm={<Toggle />}></Form>
+      <Form componentName={'Tab'} componentForm={''}></Form>
+      <Form componentName={'Slider'} componentForm={''}></Form>
+      <Form componentName={'Input'} componentForm={''}></Form>
+      <Form componentName={'Dropdown'} componentForm={''}></Form>
     </Container>
   );
 }
