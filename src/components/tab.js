@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -60,14 +60,13 @@ const TabWrap = styled.div`
 const Tab = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const tabArr = ['감자', '고구마', '카레라이스'];
-
   return (
     <Container>
       <TabWrap>
         <TabMenu>
           {tabArr.map((item, i) => (
             <TabItem
-              ket={i}
+              key={i}
               onClick={() => {
                 setCurrentTab(i);
               }}

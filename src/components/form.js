@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const Box = styled.div`
+  min-width: 600px;
   width: 90%;
   height: 15rem;
   margin: 1rem auto;
@@ -18,7 +19,6 @@ const SubTitle = styled.div`
 
 // 각 기능별 컴포넌트 form
 const Form = ({ componentName, componentForm }) => {
-  console.log(componentName);
   return (
     <Box>
       <SubTitle>{componentName}</SubTitle>
