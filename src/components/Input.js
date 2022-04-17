@@ -12,7 +12,11 @@ const Container = styled.div`
 
 const InputForm = styled.form`
   display: flex;
+  flex-direction: column;
+  background-color: white;
 `;
+
+const Items = styled.div``;
 
 const Input = () => {
   const [isEmail, setIsEmail] = useState(false);
@@ -20,21 +24,30 @@ const Input = () => {
 
   return (
     <Container>
-      <form>
-        <input
-          name="username"
-          type="text"
-          placeholder="Id"
-          className="form-input"
-          required
-        ></input>
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          className="form-input"
-        />
-      </form>
+      <InputForm>
+        <Items>
+          <label>
+            <div>E-mail</div>
+            <input
+              name="E-mail"
+              type="text"
+              placeholder="Email"
+              required //
+            ></input>
+          </label>
+        </Items>
+        <Items>
+          <label>
+            <div>Password</div>
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              className="form-input"
+            />
+          </label>
+        </Items>
+      </InputForm>
     </Container>
   );
 };
