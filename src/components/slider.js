@@ -193,8 +193,9 @@ function Slider() {
       </TextWrap>
       <SliderWrap>
         <CircleWrap>
-          {valueArr.map(cirValue => (
+          {valueArr.map((cirValue, i) => (
             <Circle
+              key={i}
               active={cirValue <= value}
               onClick={() => {
                 setValue(cirValue);
