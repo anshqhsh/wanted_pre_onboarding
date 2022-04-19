@@ -84,7 +84,6 @@ const Input = () => {
       setVaildEmail(false);
     }
   };
-  console.log('rendering');
   return (
     <Container>
       <Form>

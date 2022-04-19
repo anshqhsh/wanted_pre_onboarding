@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import './App.css';
-import Form from './components/form';
+import Form from './form';
 import Input from './components/Input';
 import Slider from './components/slider';
 import Tab from './components/tab';
 import Toggle from './components/toggle';
+import Dropdown from './components/dropdown';
+import DropDown from './components/dropdown';
 
 // container
 const Container = styled.div`
@@ -30,7 +32,7 @@ function App() {
       <Form componentName={'Tab'} componentForm={<Tab />}></Form>
       <Form componentName={'Slider'} componentForm={<Slider />}></Form>
       <Form componentName={'Input'} componentForm={<Input />}></Form>
-      <Form componentName={'Dropdown'} componentForm={''}></Form>
+      <Form componentName={'Dropdown'} componentForm={<DropDown />}></Form>
     </Container>
   );
 }

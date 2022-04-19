@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Box = styled.div`
   min-width: 600px;
   width: 90%;
-  height: 15rem;
+  height: 20rem;
   margin: 1rem auto;
   border-radius: 10px;
   border: 1px solid rgb(184, 184, 184);
