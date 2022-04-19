@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { IoMdArrowDropdown, IoMdSearch } from 'react-icons/io';
 
@@ -77,6 +77,13 @@ const DropDown = () => {
   const [searchText, setSearchText] = useState('');
   const [selectedText, setSelectedText] = useState('All Symbols');
   const [isAll, setIsAll] = useState(true); // all symbols의 t/f여부
+  const inputRef = useRef(null);
+
+  // isOpen값이 변경될때 Input의 ref값을 이용하여 테그에 focus를 준다.
+  useEffect(() => {
+    console.log(inputRef.current !== null);
+    if (inputRef.current !== null) inputRef.current.focus();
+  }, [isOpen]);
 
   // map을 이용해서 dropdown메뉴와 searchText를 indexOf로 비교하여 해당되면 테그로 메뉴를 출력
   const mapSymbol = arr => {
@@ -139,6 +146,7 @@ const DropDown = () => {
                 name="keyword"
                 placeholder="Search-Symbol"
                 value={searchText}
+                ref={inputRef}
                 onChange={e => {
                   setIsAll(false); // 입력이 시작하면 all 셋팅을 false 글씨를 text에 셋팅
                   setSearchText(e.target.value);

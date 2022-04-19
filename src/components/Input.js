@@ -117,7 +117,7 @@ const Input = () => {
             <Label>
               <ItemInput
                 name="password"
-                type={showPwd ? 'password' : 'text'}
+                type={!showPwd ? 'password' : 'text'}
                 placeholder="Password"
                 className="form-input"
               />

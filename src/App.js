@@ -5,7 +5,6 @@ import Input from './components/Input';
 import Slider from './components/slider';
 import Tab from './components/tab';
 import Toggle from './components/toggle';
-import Dropdown from './components/dropdown';
 import DropDown from './components/dropdown';
 
 // container
