@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { colorCode } from './color';
 
 const Box = styled.div`
   min-width: 600px;
@@ -6,7 +7,7 @@ const Box = styled.div`
   height: 20rem;
   margin: 1rem auto;
   border-radius: 10px;
-  border: 1px solid rgb(184, 184, 184);
+  border: 1px solid ${colorCode.border_gray};
   background-color: white;
 `;
 

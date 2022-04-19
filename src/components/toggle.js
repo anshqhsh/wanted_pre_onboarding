@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { colorCode } from '../common/color';
 
 const Container = styled.div`
   position: relative;
@@ -10,12 +11,24 @@ const Container = styled.div`
   justify-content: center;
 `;
 
+const ToggleWrap = styled.div`
+  width: 300px;
+  height: 40px;
+  background-color: ${colorCode.wrap_gray};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+`;
+
 const SlideToggle = styled.div`
   position: absolute;
   width: 250px;
   height: 30px;
   border-radius: 30px;
-  background-color: lightgray;
+  background-color: ${colorCode.button_gray};
   padding: 4px;
   margin: 0px;
   overflow: auto;
@@ -24,7 +37,7 @@ const Slider = styled.div`
   width: 125px;
   height: 30px;
   border-radius: 30px;
-  background-color: rgb(253, 253, 253);
+  background-color: ${colorCode.white};
   animation: ${({ isOn }) => (isOn ? 'ToggleOn' : 'ToggleOff')} 0.2s ease-out
     forwards;
 
@@ -62,21 +75,37 @@ const ChangedText = styled.div`
   width: 125px;
   height: 30px;
   text-align: center;
-  color: ${({ isOn }) => (isOn ? 'rgb(161, 161, 161)' : 'rgb(90, 90, 90)')};
+  color: ${({ isOn }) => (isOn ? colorCode.light_gray : colorCode.focus_gray)};
 `;
 
 const Toggle = () => {
-  const [isOn, setIsOn] = useState(false);
+  const [isOn, setIsOn] = useState(false); //오른쪽에 위치하는것이 on(true)의 기준
 
   return (
     <Container>
-      <SlideToggle isOn={isOn} onClick={() => setIsOn(!isOn)}>
-        <Slider isOn={isOn} />
-        <TextWrapper>
-          <ChangedText isOn={isOn}>기본</ChangedText>
-          <ChangedText isOn={!isOn}>상세</ChangedText>
-        </TextWrapper>
-      </SlideToggle>
+      <ToggleWrap>
+        <SlideToggle isOn={isOn}>
+          <Slider isOn={isOn} />
+          <TextWrapper>
+            <ChangedText
+              isOn={isOn}
+              onClick={() => {
+                setIsOn(false);
+              }}
+            >
+              기본
+            </ChangedText>
+            <ChangedText
+              isOn={!isOn}
+              onClick={() => {
+                setIsOn(true);
+              }}
+            >
+              상세
+            </ChangedText>
+          </TextWrapper>
+        </SlideToggle>
+      </ToggleWrap>
     </Container>
   );
 };

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { colorCode } from '../common/color';
 
 // const trackFill = css`
 //   height: 6px;
@@ -96,6 +97,11 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
+const Wrap = styled.div`
+  background-color: ${colorCode.wrap_gray};
+  padding: 20px;
+  border-radius: 10px;
+`;
 
 const SliderContainer = styled.div`
   width: 500px;
@@ -109,8 +115,8 @@ const SliderValueBtn = styled.div`
   padding-top: 4px;
   padding-bottom: 4px;
   border-radius: 10px;
-  color: rgb(175, 175, 175);
-  background-color: rgb(235, 235, 235);
+  color: ${colorCode.font_gray};
+  background-color: ${colorCode.button_gray};
 `;
 
 const NewInput = styled.input`
@@ -129,7 +135,7 @@ const NewInput = styled.input`
   &::-webkit-slider-runnable-track {
     width: 100%;
     height: 4px;
-    background: rgb(80, 173, 174);
+    background: ${colorCode.project_green};
   }
 
   &::-webkit-slider-thumb {
@@ -137,12 +143,12 @@ const NewInput = styled.input`
     appearance: none;
     height: 30px;
     width: 30px;
-    background: rgb(80, 173, 174);
+    background: ${colorCode.project_green};
     border-radius: 100%;
     top: 50%;
     transform: translateY(-50%);
-    border: 5px solid #ffff;
-    box-shadow: ${uperSlider('rgb(235, 235, 235)', '-13px')};
+    border: 5px solid ${colorCode.white};
+    box-shadow: ${uperSlider(colorCode.button_gray, '-13px')};
   }
 `;
 const SliderWrap = styled.div`
@@ -165,64 +171,75 @@ const Circle = styled.div`
   height: 13px;
   border-radius: 50%;
   border: 2px solid
-    ${({ active }) => (active ? 'rgb(80, 173, 174)' : 'rgb(235, 235, 235)')};
+    ${({ active }) =>
+      active ? colorCode.project_green : colorCode.button_gray};
   background-color: ${({ active }) =>
-    active ? 'rgb(80, 173, 174)' : 'rgb(235, 235, 235)'};
+    active ? colorCode.project_green : colorCode.button_gray};
 `;
 const TextWrap = styled.div`
   width: 450px;
   text-align: right;
   font-size: 1.5rem;
   font-weight: bold;
-  border: 2px solid black;
+  border: 2px solid ${colorCode.border_gray};
   border-radius: 10px;
   padding: 20px 0;
   padding-right: 20px;
 `;
 const Text = styled.span`
-  color: gray;
+  color: ${colorCode.light_gray};
   margin: 10px;
 `;
-function Slider() {
-  const [value, setValue] = useState(500); // 표시값은 state/10 % 올림
+
+const Slider = ({ percent }) => {
+  // 실제 사용시에 퍼센테이지를 받아 value를 셋팅 할 것 같아 percent를 받아와서 setState
+  const [value, setValue] = useState(percent > 100 ? 1000 : percent * 10);
   const valueArr = [1, 250, 500, 750, 1000]; // pixel 매칭을 위해 잘게 분할
+
+  const makeCircle = arr => {
+    const circles = arr.map((cirValue, i) => (
+      <Circle
+        key={i}
+        active={cirValue <= value}
+        onClick={() => {
+          setValue(cirValue);
+        }}
+      />
+    ));
+    return circles;
+  };
+  const makeValuebtn = arr => {
+    const valueBtn = arr.map((value, i) => (
+      <SliderValueBtn
+        key={i}
+        onClick={() => {
+          setValue(value);
+        }}
+      >{`${Math.ceil(value / 10)}%`}</SliderValueBtn>
+    ));
+    return valueBtn;
+  };
   return (
     <Container>
-      <TextWrap>
-        <Text>{Math.ceil(value / 10)}</Text>%
-      </TextWrap>
-      <SliderWrap>
-        <CircleWrap>
-          {valueArr.map((cirValue, i) => (
-            <Circle
-              key={i}
-              active={cirValue <= value}
-              onClick={() => {
-                setValue(cirValue);
-              }}
-            />
-          ))}
-        </CircleWrap>
-        <NewInput
-          type="range"
-          onInput={e => setValue(e.target.value)}
-          value={value}
-          min="1"
-          max="1000"
-        ></NewInput>
-      </SliderWrap>
-      <SliderContainer>
-        {valueArr.map((value, i) => (
-          <SliderValueBtn
-            key={i}
-            onClick={() => {
-              setValue(value);
-            }}
-          >{`${Math.ceil(value / 10)}%`}</SliderValueBtn>
-        ))}
-      </SliderContainer>
+      <Wrap>
+        <TextWrap>
+          <Text>{Math.ceil(value / 10)}</Text>
+          <span>%</span>
+        </TextWrap>
+        <SliderWrap>
+          <CircleWrap>{makeCircle(valueArr)}</CircleWrap>
+          <NewInput
+            type="range"
+            onInput={e => setValue(e.target.value)}
+            value={value}
+            min="1"
+            max="1000"
+          ></NewInput>
+        </SliderWrap>
+        <SliderContainer>{makeValuebtn(valueArr)}</SliderContainer>
+      </Wrap>
     </Container>
   );
-}
+};
 
 export default Slider;
