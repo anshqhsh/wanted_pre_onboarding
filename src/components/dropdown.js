@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { IoMdArrowDropdown } from 'react-icons/io';
+import { IoMdArrowDropdown, IoMdSearch } from 'react-icons/io';
 
 const Container = styled.div`
   position: relative;
@@ -20,32 +20,46 @@ const DropDownWrap = styled.div`
   text-align: center;
   align-items: center;
 `;
+const DropDownMenuWrap = styled.div`
+  width: 220px;
+  border: 1px solid rgb(218, 218, 218);
+  margin-top: 4px;
+`;
 const DropDownMenu = styled.div`
   display: flex;
   width: 200px;
   height: 32px;
   padding-left: 12px;
   padding-right: 12px;
-  border: 2px solid rgb(147, 147, 147);
+  border: 1px solid rgb(147, 147, 147);
   margin: 0 auto;
   border-radius: 4px;
   margin-top: 10px;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
 `;
-const Text = styled.div``;
 const Menu = styled.div`
-  width: 224px;
+  width: 90%;
   height: 22px;
   margin: 5px;
-  border: 2px solid red;
+  cursor: pointer;
+`;
+const InputWrap = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid rgb(218, 218, 218); ;
 `;
 const Input = styled.input`
-  width: 224px;
+  width: 90%;
   height: 22px;
   margin: 5px;
-  border: 2px solid red;
   padding: 0px;
+  border: 0 solid black;
+  :focus {
+    outline: none;
+  }
 `;
 
 const DropDown = () => {
@@ -68,72 +82,80 @@ const DropDown = () => {
   const mapSymbol = arr => {
     let data = arr;
     if (isAll) {
-      return data.map((str, i) => {
+      data = arr.map((str, i) => {
         return (
           <Menu
             key={i}
-            onClick={() => {
-              console.log({ str });
-              setSelectedText(str);
-              setSearchText('');
-              setIsAll(false);
+            onClick={e => {
               setIsOpen(false);
+              setSelectedText(str);
             }}
           >
             {str}
           </Menu>
         );
       });
+      return data;
     } else {
-      data = data.filter(str => {
+      let filteredData = data.filter(str => {
         return str.toLowerCase().indexOf(searchText.toLowerCase()) > -1; // search하는 값도 toLowercase를 통해 동일한 조건으로 검색
       });
-      return data.map((str, i) => {
-        return <Menu key={i}>{str}</Menu>;
+      data = filteredData.map((str, i) => {
+        return (
+          <Menu
+            key={i}
+            value={str}
+            goToMenu={str}
+            onClick={e => {
+              setIsOpen(false);
+              setSelectedText(str);
+              setIsAll(true);
+            }}
+          >
+            {str}
+          </Menu>
+        );
       });
+      return data;
     }
   };
-  console.log('rendering');
-  console.log(isOpen);
-  console.log(searchText);
-  console.log(selectedText);
-  console.log(isAll);
   return (
     <Container>
       <DropDownWrap>
-        <DropDownMenu>
-          <Text>{selectedText}</Text>
-          <IoMdArrowDropdown
-            onClick={() => {
-              setIsOpen(!isOpen);
-            }}
-          />
+        <DropDownMenu
+          onClick={() => {
+            setIsOpen(!isOpen);
+            setIsAll(true);
+          }}
+        >
+          <span>{selectedText}</span>
+          <IoMdArrowDropdown />
         </DropDownMenu>
         {isOpen ? (
-          <div>
-            <Input
-              name="keyword"
-              placeholder="Search-Symbol"
-              value={searchText}
-              onChange={e => {
-                setIsAll(false); // 입력이 시작하면 all 셋팅을 false 글씨를 text에 셋팅
-                setSearchText(e.target.value);
-              }}
-            />
-            <div>
-              <Menu
-                onClick={() => {
-                  setSelectedText('All Symbols');
-                  setSearchText('');
-                  setIsAll(true);
-                  setIsOpen(false);
+          <DropDownMenuWrap>
+            <InputWrap>
+              <IoMdSearch />
+              <Input
+                name="keyword"
+                placeholder="Search-Symbol"
+                value={searchText}
+                onChange={e => {
+                  setIsAll(false); // 입력이 시작하면 all 셋팅을 false 글씨를 text에 셋팅
+                  setSearchText(e.target.value);
                 }}
-              >
-                All Symbols
-              </Menu>
-              {mapSymbol(dropDownArr)}
-            </div>
-          </div>
+              />
+            </InputWrap>
+            <Menu
+              onClick={e => {
+                setIsAll(true);
+                setSelectedText('All symbols');
+                setSearchText('');
+              }}
+            >
+              All Symbols
+            </Menu>
+            {mapSymbol(dropDownArr)}
+          </DropDownMenuWrap>
         ) : null}
       </DropDownWrap>
     </Container>
