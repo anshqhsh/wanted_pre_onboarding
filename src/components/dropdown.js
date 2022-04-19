@@ -19,13 +19,16 @@ const DropDownWrap = styled.div`
   flex-direction: column;
   text-align: center;
   align-items: center;
+  .icon {
+    margin-left: 10px;
+  }
 `;
 const DropDownMenuWrap = styled.div`
   width: 220px;
   border: 1px solid rgb(218, 218, 218);
   margin-top: 4px;
 `;
-const DropDownMenu = styled.div`
+const DropDownView = styled.div`
   display: flex;
   width: 200px;
   height: 32px;
@@ -73,10 +76,10 @@ const DropDown = () => {
     '1000SHIBUSD.PERP',
   ];
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [searchText, setSearchText] = useState('');
-  const [selectedText, setSelectedText] = useState('All Symbols');
-  const [isAll, setIsAll] = useState(true); // all symbols의 t/f여부
+  const [isOpen, setIsOpen] = useState(false); // dropdown 메뉴 오픈 여부
+  const [searchText, setSearchText] = useState(''); // 현재 검색값
+  const [selectedText, setSelectedText] = useState('All Symbols'); // 선택된 값
+  const [isAll, setIsAll] = useState(true); // dropdownItem의 전체 보여주기 t/f여부
   const inputRef = useRef(null);
 
   // isOpen값이 변경될때 Input의 ref값을 이용하여 테그에 focus를 준다.
@@ -85,83 +88,63 @@ const DropDown = () => {
     if (inputRef.current !== null) inputRef.current.focus();
   }, [isOpen]);
 
+  const onClick = (str, e) => {
+    e.preventDefault();
+    setIsOpen(false);
+    setSelectedText(str);
+    setIsAll(true);
+  };
+  const onOpenClick = () => {
+    setIsOpen(!isOpen);
+    setIsAll(true);
+    setSearchText('');
+  };
+  const onAllClick = () => {
+    setIsAll(true);
+    setSelectedText('All symbols');
+    setSearchText('');
+  };
+
   // map을 이용해서 dropdown메뉴와 searchText를 indexOf로 비교하여 해당되면 테그로 메뉴를 출력
   const mapSymbol = arr => {
     let data = arr;
-    if (isAll) {
-      data = arr.map((str, i) => {
-        return (
-          <Menu
-            key={i}
-            onClick={e => {
-              setIsOpen(false);
-              setSelectedText(str);
-            }}
-          >
-            {str}
-          </Menu>
-        );
-      });
-      return data;
-    } else {
-      let filteredData = data.filter(str => {
+    if (!isAll) {
+      data = data.filter(str => {
         return str.toLowerCase().indexOf(searchText.toLowerCase()) > -1; // search하는 값도 toLowercase를 통해 동일한 조건으로 검색
       });
-      data = filteredData.map((str, i) => {
-        return (
-          <Menu
-            key={i}
-            value={str}
-            goToMenu={str}
-            onClick={e => {
-              setIsOpen(false);
-              setSelectedText(str);
-              setIsAll(true);
-            }}
-          >
-            {str}
-          </Menu>
-        );
-      });
-      return data;
     }
+    return data.map((str, i) => {
+      return (
+        <Menu key={i} onClick={e => onClick(str, e)}>
+          {str}
+        </Menu>
+      );
+    });
   };
   return (
     <Container>
       <DropDownWrap>
-        <DropDownMenu
-          onClick={() => {
-            setIsOpen(!isOpen);
-            setIsAll(true);
-          }}
-        >
+        <DropDownView onClick={onOpenClick}>
           <span>{selectedText}</span>
           <IoMdArrowDropdown />
-        </DropDownMenu>
+        </DropDownView>
         {isOpen ? (
           <DropDownMenuWrap>
             <InputWrap>
               <IoMdSearch />
               <Input
                 name="keyword"
-                placeholder="Search-Symbol"
                 value={searchText}
-                ref={inputRef}
+                placeholder="Search-Symbol"
+                ref={inputRef} // focus를 위한 Ref
                 onChange={e => {
                   setIsAll(false); // 입력이 시작하면 all 셋팅을 false 글씨를 text에 셋팅
                   setSearchText(e.target.value);
                 }}
               />
             </InputWrap>
-            <Menu
-              onClick={e => {
-                setIsAll(true);
-                setSelectedText('All symbols');
-                setSearchText('');
-              }}
-            >
-              All Symbols
-            </Menu>
+            {/* 메뉴아이템 생성 */}
+            <Menu onClick={onAllClick}>All Symbols</Menu>
             {mapSymbol(dropDownArr)}
           </DropDownMenuWrap>
         ) : null}
