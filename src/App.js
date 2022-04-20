@@ -30,10 +30,7 @@ function App() {
       <Title>React Components</Title>
       <Form componentName={'Toggle'} componentForm={<Toggle />}></Form>
       <Form componentName={'Tab'} componentForm={<Tab />}></Form>
-      <Form
-        componentName={'Slider'}
-        componentForm={<Slider percent={50} />}
-      ></Form>
+      <Form componentName={'Slider'} componentForm={<Slider />}></Form>
       <Form componentName={'Input'} componentForm={<Input />}></Form>
       <Form componentName={'Dropdown'} componentForm={<DropDown />}></Form>
     </Container>

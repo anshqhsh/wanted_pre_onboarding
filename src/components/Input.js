@@ -14,9 +14,11 @@ const Container = styled.div`
 
   .onLogo {
     color: ${colorCode.project_green};
+    cursor: pointer;
   }
   .offLogo {
     color: ${colorCode.light_gray};
+    cursor: pointer;
   }
 `;
 
@@ -26,9 +28,9 @@ const ItemsWrap = styled.div`
   background-color: ${colorCode.wrap_gray};
   padding: 20px;
   border-radius: 10px;
-  div.print_invaild {
-    font-size: 0.5rem;
-    margin: 4px;
+  span.print_invaild {
+    font-size: 0.6rem;
+    margin: 3px;
     color: ${colorCode.red};
   }
   div.subTitle {
@@ -39,7 +41,12 @@ const ItemsWrap = styled.div`
   }
 `;
 const Item = styled.div`
-  margin-bottom: 5px;
+  width: auto;
+  height: 75px;
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 10px;
 `;
 const Label = styled.label`
   width: 220px;
@@ -67,15 +74,15 @@ const ItemInput = styled.input`
 `;
 
 const Input = () => {
-  const [showPwd, setShowPwd] = useState(false); // 패스워드
-  const [vaildEmail, setVaildEmail] = useState(false); // 입력된 텍스트의 형식
   const [printMsg, setPrintMsg] = useState(false); // vaildText 출력 여부
   const [emailTxt, setEmailTxt] = useState(''); // 등록되는 텍스트 값
+  const [vaildEmail, setVaildEmail] = useState(false); // email 형식 맞는 여부
+  const [showPwd, setShowPwd] = useState(false); // 패스워드
 
   // 이메일 정규식으로 형태 판별
   const checkRgexEmail = e => {
     const regex =
-      /^(([^<>()[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+      /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
     if (regex.test(e)) {
       setVaildEmail(true);
     } else {
@@ -103,7 +110,7 @@ const Input = () => {
             <BsCheckCircleFill className={vaildEmail ? 'onLogo' : 'offLogo'} />
           </Label>
           {printMsg && emailTxt !== '' && !vaildEmail ? (
-            <div className="print_invaild">invaild e-mail address.</div>
+            <span className="print_invaild">invaild e-mail address.</span>
           ) : null}
         </Item>
         <Item>

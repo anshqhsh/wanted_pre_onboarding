@@ -99,10 +99,6 @@ const DropDown = () => {
   }, [isOpen]);
 
   // dropdown의 외부 요소를 선택하면 메뉴를 닫아 주는 기능
-  // 리랜더링이 될때 반응하여 mousedown이 발생할 때마다 clickOutside가 호출됨
-  // document.addEventListener가 스스로 종료되지 않아 이것을 useeffect에서
-  // 언마운트 처리가 필요하여 cleanup document.removeEventListener 통해 이벤트 리스너를 종료
-  // 컴포넌트가 사라질 때 cleanup 함수가 호출됩니다.
   useEffect(() => {
     const clickOutside = e => {
       if (isOpen && !wrapRef.current.contains(e.target)) {
@@ -154,6 +150,7 @@ const DropDown = () => {
     });
     return menu;
   };
+
   return (
     <Container>
       <DropDownWrap ref={wrapRef}>

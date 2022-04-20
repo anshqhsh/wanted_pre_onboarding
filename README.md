@@ -1,70 +1,196 @@
-# Getting Started with Create React App
+# Wanted_pre_onboarding
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+원티드 프리온보딩 코스
 
-## Available Scripts
+## 스택
 
-In the project directory, you can run:
+> React.JS
+> Styled Component
 
-### `npm start`
+## 구조
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
+├─common
+│   color.js
+│   form.js
+│
+├─components
+│   dropdown.js
+│   input.js
+│   slider.js
+│   tab.js
+│   toggle.js
+│ App.css
+│ App.js
+│ index.js
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## layout
 
-### `npm test`
+각 컴포넌트의 기능 구현을 목적으로 하고 있어 CSS-in-JS인 Styled component를 사용 구현
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+컴포넌트의 Props를 사용할 수 있어 값에 따른 스타일 조정과 한 파일 안에서 스타일을 정할 수 있는 부분이 장점이라 생각되어 적용하였습니다.
 
-### `npm run build`
+App.js form.js 안에 기능 컴포넌트들을 작성하여 동일한 레이아웃을 적용하도록 노력했습니다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 각 컴포넌트의 구현방법과 이유 어려웠던 점
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Toggle.js
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  ```javascript
+  const [isOn, setIsOn] = useState(false); //오른쪽에 위치하는것이 on(true)의 기준
+  ```
 
-### `npm run eject`
+  > Toggle에서는 위의 isOn state를 이용하여 컴포넌트를 구성하였습니다.
+  > isOn을 통해 Toggle버튼을 작동하고 있는데 각 버튼을 선택했을 때 컴포넌트에 isOn을 전달하여 Slider animation과 텍스트의 color 변경하게 됩니다.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Tab.js
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  ```javascript
+  const [currentTab, setCurrentTab] = useState(0);
+  const tabArr = ['감자', '고구마', '카레라이스'];
+  ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+  > tab에서는 위의 currentTab state를 이용하여 컴포넌트를 구성하였습니다.
+  > 각 텝의 구성요소들을 array로 생성하여 makeTab arrowfunction을 통해 화면에 렌더링 해줍니다.
+  > TabItem에서 onClick을 통해 현재 선택되어진 tab의 index로 currentTab을 변경해주고
+  > currentTab을 전달하여 선택된 텝의 텍스트 color를 변경해준다.
+  > LinTab 컴포넌트 에서 currentTab props 받아 다항연산자를 통해서 Line위치를 이동 시켜줍니다.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Slider.js
 
-## Learn More
+  ```javascript
+  const [value, setValue] = useState(500); // value의 범위를 1~1000으로 설정
+  const valueArr = [1, 250, 500, 750, 1000]; // pixel 매칭을 위해 잘게 분할
+  ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  > slider에서는 value state를 이용하여 컴포넌트를 구성하였습니다.
+  > 최대한 선발과제에서 주어진 부분을 따라 하도록 UI부분에서 노력을 하였습니다.
+  > Input 테그의 range를 이용하여 형태를 구현 하였는데 1~ 100%값을 사용했을때 단계단계의 픽셀 매칭이 미세하게 적용이 안되는 부분이 있어 1~1000의 범위 값을 준뒤 해당 값을 셋팅 해주는 부분에서 %에 맞춰 값을 나눠준뒤 Math.ceil을 이용하여 올림을 통해 퍼센트를 셋팅 하였습니다.
+  > 슬라이더의 구간에 있는 circle을 표현해주기 위해 슬라이더 Input에 z index값을 설정하여 배경에 구간의 원을 표현 하였습니다.
+  > active라는 props를 통해 해당 슬라이더 구간의 circle에 색상을 변경해주었습니다.
+  > 버튼을 이용하여 value값을 변경시키면 해당 위치에 슬라이더 thumb 이동하면서 슬라이더 기능이 작동합니다.
+  > 브라우저 호환성을 위해 파이어폭스에 맞는 css를 적용하였습니다.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  ### 어려웠던점
 
-### Code Splitting
+  > 최대한 css를 비슷한 환경으로 셋팅해서 각 구간의 픽셀 매칭을 구현을 하는 부분이 어려웠습니다.  
+  > 움직이는 슬라이더의 slider Thumb 가 끝점에 닿았을때의 원이 슬라이더 바의 끝에 걸려 실질적으로 flex로 구현하는 css에서의 픽셀 매칭이 어려운 부분이 있었습니다.
+  > chorom과 safari에서는 slider의 진행에 색상 주는 것이 어려워 하단의 uperSlider라는 arrowfunction을 만들어 box-shadow값을 이용하여 슬라이더를 표현 하는 것이 어려웠습니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+  ```javascript
+  const uperSlider = (color, size) => {
+    let i = 12;
+    let shadow = `${i}px 0 0 ${size} ${color}`;
 
-### Analyzing the Bundle Size
+    for (i; i < 500; i++) {
+      shadow = `${shadow}, ${i}px 0 0 ${size} ${color}`;
+    }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+    return shadow;
+  };
+  ```
 
-### Making a Progressive Web App
+- Input.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+  ```javascript
+  const [printMsg, setPrintMsg] = useState(false); // vaildText 출력 여부
+  const [emailTxt, setEmailTxt] = useState(''); // 등록되는 텍스트 값
+  const [vaildEmail, setVaildEmail] = useState(false); // email 형식 맞는 여부
+  const [showPwd, setShowPwd] = useState(false); // 패스워드
+  ```
 
-### Advanced Configuration
+  > Input에서는 위의 4가지의 state를 이용하여 input 컴포넌트를 구성하였습니다.
+  > 이메일 체크 기능은 Input의 onChange를 이용 변경되는 값을 checkRgexEmail에서 정규식을 통해 값을 체크 값의 조건에 부합하면 setVaildEmail을 true로 변경하고 이메일 인풋에 있는 icon의 색상을 변경하여 이메일 형식과 맞으면 자동으로 체크 됩니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+  ```javascript
+  const checkRgexEmail = e => {
+    const regex =
+      /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    if (regex.test(e)) {
+      setVaildEmail(true);
+    } else {
+      setVaildEmail(false);
+    }
+  };
+  ```
 
-### Deployment
+  > onBlur를 사용하여 포커스가 풀리게 되면 이메일 형식과 맞지 않는경우 invaild e-mail address를 띄워줍니다.
+  > password Input는 눈모양 Icon에 onClick이벤트를 줘서 className을 변경하는 방식으로 비밀번호 노출 여부를 설정하였습니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+  ### 어려웠던점
 
-### `npm run build` fails to minify
+  > 기능 자체는 간단하다고 생각하였는데. styled-component를 쓰다보니 렌더링해주는 테그들이 복잡하다는 생각이 많이 들었습니다. 아이템들을 감싸는 테그들을 생성할때 styled를 사용할지 아니면 그냥 의미없는 div테그들을 감싸야 하는건지 혼자서 판단하기 어려운 부분이 항상 있는 것 같습니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- dropdown.js
+
+  ```javascript
+  const [isOpen, setIsOpen] = useState(false); // dropdown 메뉴 오픈 여부
+  const [searchText, setSearchText] = useState(''); // 현재 검색값
+  const [selectedText, setSelectedText] = useState('All Symbols'); // 선택된 값
+  const [isAll, setIsAll] = useState(true); // dropdownItem의 전체 보여주기 여부
+  const inputRef = useRef(null);
+  const wrapRef = useRef(null);
+  ```
+
+  > dropdown에서는 위의 state값과 ref 값을 이용하여 이용하여 컴포넌트를 구성하였습니다.
+  > 드롭다운을 누르면 isOpen값이 true로 변경되면서 선택창이 펼쳐집니다.
+  > 선택창이 열리면 input에 자동으로 focus가 되어 있어 바로 입력이 가능하게 되어 있습니다.
+  > Input창에 값을 입력하면 makeMenu를 통해 searchText값과 dropDownArr와 비교 하여 map을 통해 컴포넌트를 생성하도록 만들었습니다.
+
+  ```javascript
+  // search 기능 : searchText를 indexOf로 비교하여 menu를 출력
+  const makeMenu = arr => {
+    let data = arr;
+    if (!isAll) {
+      data = data.filter(str => {
+        return str.toLowerCase().indexOf(searchText.toLowerCase()) > -1; // search하는 값도 toLowercase를 통해 동일한 조건으로 검색
+      });
+    }
+    const menu = data.map((str, i) => {
+      return (
+        <Menu key={i} onClick={e => onMenuClick(str, e)}>
+          {str}
+        </Menu>
+      );
+    });
+    return menu;
+  };
+  ```
+
+  > 검색하는 상태에서 allSymbols를 선택하게 되면 isall, selectedText, searchText를 초기화 시켜 줍니다.
+  > 드롭다운 선택창의 바깥 레이아웃을 선택하면 선택창을 닫을 수 있습니다.
+
+### 어려웠던점
+
+> 드롭다운이 열렸을때 input의 값을 바로 입력 할 수 없는게 사용성에 불편하다 생각하여 input 창에 바로 포커스가 가도록 하는 것을 구현하는게 어려웠습니다.
+> 해결 방법은 컴포넌트가 드롭다운이 열렸을때 랜더링이 되기 때문에 useEffect 훅을 이용하여 input에 useRef를 이용 dom요소를 받아 해당 input에 포커스를 주는 방식으로 해결 하였습니다.
+
+```javascript
+// isOpen값이 변경될때 Input의 ref값을 이용하여 테그에 focus를 준다.
+useEffect(() => {
+  if (inputRef.current !== null) inputRef.current.focus();
+}, [isOpen]);
+```
+
+> 드롭다운이 열렸을때 allSymbols를 선택하는 경우에는 선택 메뉴를 전부 보여주게되는데 드롭다운 컴포넌트의 초기 시작이 allSymbols가 선택되어 있는 상태였기 때문에 이부분을 구현하였습니다.
+> react 공식 문서에서 소개되어 있어 useEffect를 사용하여 코드를 짰습니다.
+> 리랜더링이 될때 반응하여 mousedown이 발생할 때마다 clickOutside가 호출합니다.
+> 이때 document.addEventListener가 스스로 종료되지 않아 이것을 useeffect에서 언마운트 처리가 필요하여 cleanup 함수인 document.removeEventListener 통해 이벤트 리스너를 종료 컴포넌트가 사라질 때 cleanup 함수가 호출되게 코드를 짜는 것이 어려운 부분이였습니다.
+
+```javascript
+// dropdown의 외부 요소를 선택하면 메뉴를 닫아 주는 기능
+useEffect(() => {
+  const clickOutside = e => {
+    if (isOpen && !wrapRef.current.contains(e.target)) {
+      setIsOpen(false);
+    }
+  };
+  // Bind the event listener
+  document.addEventListener('mousedown', clickOutside);
+  // Unbind the event listener on clean up
+  return () => {
+    document.removeEventListener('mousedown', clickOutside);
+  };
+});
+```

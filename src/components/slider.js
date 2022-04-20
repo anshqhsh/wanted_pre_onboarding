@@ -2,82 +2,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { colorCode } from '../common/color';
 
-// const trackFill = css`
-//   height: 6px;
-//   background-color: transparent;
-//   background-image: linear-gradient(#ffc069, #ffc069),
-//     linear-gradient(#ccced0, #ccced0);
-//   background-size: var(--sx) 6px, calc(100% - var(--sx)) 4px;
-//   background-position: left center, right center;
-//   background-repeat: no-repeat;
-// `;
-
-// const fill = css`
-//   height: 0.4em;
-//   background: ffc069;
-//   border-radius: 4px;
-// `;
-
-// const thumb = css`
-//   box-sizing: border-box;
-//   border: none;
-//   width: 1.5em;
-//   height: 1.5em;
-//   border-radius: 50%;
-//   background: rgb(253, 253, 253);
-// `;
-
-// const Input = styled.input`
-//   &,
-//   &::-webkit-slider-thumb {
-//     -webkit-appearance: none;
-//   }
-
-//   &:focus {
-//     outline: none;
-//   }
-
-//   // 브라우저 대응
-//   &:focus::-webkit-slider-thumb {
-//     box-shadow: 0 0 5px red;
-//   }
-
-//   &:focus::-moz-range-thumb {
-//     outline: -webkit-focus-ring-color auto px;
-//   }
-
-//   &:focus::-ms-thumb {
-//     outline: -webkit-focus-ring-color auto 5px;
-//   }
-
-//   --range: calc(var(--max) - var(--min));
-//   --ratio: calc((var(--val) - var(--min)) / var(--range));
-//   --sx: calc(0.5 * 1.5em + var(--ratio) * (100% - 1.5em));
-
-//   margin: 0;
-//   padding: 0;
-//   height: 1.5em;
-//   background: transparent;
-//   font: 1em/1 arial, sans-serif;
-
-//   &::-webkit-slider-runnable-track {
-//     ${trackFill};
-//   }
-
-//   &::-moz-range-progress {
-//     ${fill};
-//   }
-
-//   &::-ms-fill-lower {
-//     ${fill};
-//   }
-
-//   &::-webkit-slider-thumb {
-//     margin-top: calc(0.5 * (0.4em - 1.5em));
-//     ${thumb};
-//   }
-// `;
 // chrome과 safari에서 Webkit 스타일시트로 교체 해서 적용이 안됨 - 해결법
+// slider 를 shadow로 직접 그려줌
 const uperSlider = (color, size) => {
   let i = 12;
   let shadow = `${i}px 0 0 ${size} ${color}`;
@@ -127,9 +53,39 @@ const NewInput = styled.input`
   appearance: none;
   cursor: pointer;
   background-color: transparent;
+  z-index: 1;
 
   &:focus {
     outline: none;
+  }
+
+  // Firefox 브라우저 대응 css
+  &:focus::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    background: ${colorCode.project_green};
+    border: 4px solid ${colorCode.white};
+    border-radius: 100%;
+    outline: none;
+  }
+  &::-moz-range-track,
+  &::-moz-range-progress {
+    width: 100%;
+    height: 4px;
+    background: ${colorCode.button_gray};
+  }
+  &::-moz-range-progress {
+    background: ${colorCode.project_green};
+  }
+  &::-moz-range-thumb {
+    appearance: none;
+    margin: 0;
+    height: 20px;
+    width: 20px;
+    background: ${colorCode.project_green};
+    border-radius: 100%;
+    border: 0;
+    transition: background-color 150ms;
   }
 
   &::-webkit-slider-runnable-track {
@@ -148,7 +104,7 @@ const NewInput = styled.input`
     top: 50%;
     transform: translateY(-50%);
     border: 5px solid ${colorCode.white};
-    box-shadow: ${uperSlider(colorCode.button_gray, '-13px')};
+    box-shadow: ${uperSlider(colorCode.button_gray, '-12px')};
   }
 `;
 const SliderWrap = styled.div`
@@ -191,9 +147,8 @@ const Text = styled.span`
   margin: 10px;
 `;
 
-const Slider = ({ percent }) => {
-  // 실제 사용시에 퍼센테이지를 받아 value를 셋팅 할 것 같아 percent를 받아와서 setState
-  const [value, setValue] = useState(percent > 100 ? 1000 : percent * 10);
+const Slider = () => {
+  const [value, setValue] = useState(500); // value의 범위를 1~1000으로 설정
   const valueArr = [1, 250, 500, 750, 1000]; // pixel 매칭을 위해 잘게 분할
 
   const makeCircle = arr => {

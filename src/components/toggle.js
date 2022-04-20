@@ -32,6 +32,7 @@ const SlideToggle = styled.div`
   padding: 4px;
   margin: 0px;
   overflow: auto;
+  cursor: pointer;
 `;
 const Slider = styled.div`
   width: 125px;
@@ -84,7 +85,7 @@ const Toggle = () => {
   return (
     <Container>
       <ToggleWrap>
-        <SlideToggle isOn={isOn}>
+        <SlideToggle>
           <Slider isOn={isOn} />
           <TextWrapper>
             <ChangedText

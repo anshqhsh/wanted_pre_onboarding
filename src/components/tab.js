@@ -64,6 +64,7 @@ const TabWrap = styled.div`
   padding-left: 20px;
   padding-right: 20px;
   background-color: ${colorCode.white};
+  cursor: pointer;
 `;
 const Tab = () => {
   const [currentTab, setCurrentTab] = useState(0);
