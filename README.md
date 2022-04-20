@@ -52,10 +52,9 @@ App.js form.js 안에 기능 컴포넌트들을 작성하여 동일한 레이아
   ```
 
   > tab에서는 위의 currentTab state를 이용하여 컴포넌트를 구성하였습니다.
-  > 각 텝의 구성요소들을 array로 생성하여 makeTab arrowfunction을 통해 화면에 렌더링 해줍니다.
-  > TabItem에서 onClick을 통해 현재 선택되어진 tab의 index로 currentTab을 변경해주고
-  > currentTab을 전달하여 선택된 텝의 텍스트 color를 변경해준다.
-  > LinTab 컴포넌트 에서 currentTab props 받아 다항연산자를 통해서 Line위치를 이동 시켜줍니다.
+  > 각 탭의 구성요소들을 array로 생성하여 makeTab arrowfunction을 통해 테그를 생성
+  > TabItem에서 onClick을 통해 현재 선택된 tab의 index로 currentTab을 변경 currentTab의 prop을 전달하여 선택된 탭의 텍스트 color를 변경해준다.
+  > LineTab 에서 currentTab prop을 받아 다항연산자를 통해서 Line위치를 이동시켜줍니다.
 
 - Slider.js
 
@@ -66,17 +65,17 @@ App.js form.js 안에 기능 컴포넌트들을 작성하여 동일한 레이아
 
   > slider에서는 value state를 이용하여 컴포넌트를 구성하였습니다.
   > 최대한 선발과제에서 주어진 부분을 따라 하도록 UI부분에서 노력을 하였습니다.
-  > Input 테그의 range를 이용하여 형태를 구현 하였는데 1~ 100%값을 사용했을때 단계단계의 픽셀 매칭이 미세하게 적용이 안되는 부분이 있어 1~1000의 범위 값을 준뒤 해당 값을 셋팅 해주는 부분에서 %에 맞춰 값을 나눠준뒤 Math.ceil을 이용하여 올림을 통해 퍼센트를 셋팅 하였습니다.
-  > 슬라이더의 구간에 있는 circle을 표현해주기 위해 슬라이더 Input에 z index값을 설정하여 배경에 구간의 원을 표현 하였습니다.
+  > Input 테그의 range를 이용하여 형태를 구현 하였는데 1~ 100% 값을 사용했을 때 픽셀 매칭이 미세하게 적용이 안 되는 부분이 있어 1~1000의 범위 값을 준 뒤 해당 값을 세팅 해주는 부분에서 % 에 맞춰 값을 나누고 Math.ceil을 이용하여 올림을 통해 값을 표시하였습니다.
+  > 슬라이더의 구간에 있는 circle을 표현해주기 위해 슬라이더 Input에 z-index 값을 설정하여 배경에 구간의 원을 표현하였습니다.
   > active라는 props를 통해 해당 슬라이더 구간의 circle에 색상을 변경해주었습니다.
-  > 버튼을 이용하여 value값을 변경시키면 해당 위치에 슬라이더 thumb 이동하면서 슬라이더 기능이 작동합니다.
+  > 버튼을 이용하여 value 값을 변경시키면 해당 위치에 슬라이더 thumb 이동하면서 슬라이더 기능이 작동합니다.
   > 브라우저 호환성을 위해 파이어폭스에 맞는 css를 적용하였습니다.
 
-  ### 어려웠던점
+  어려웠던점
 
-  > 최대한 css를 비슷한 환경으로 셋팅해서 각 구간의 픽셀 매칭을 구현을 하는 부분이 어려웠습니다.  
-  > 움직이는 슬라이더의 slider Thumb 가 끝점에 닿았을때의 원이 슬라이더 바의 끝에 걸려 실질적으로 flex로 구현하는 css에서의 픽셀 매칭이 어려운 부분이 있었습니다.
-  > chorom과 safari에서는 slider의 진행에 색상 주는 것이 어려워 하단의 uperSlider라는 arrowfunction을 만들어 box-shadow값을 이용하여 슬라이더를 표현 하는 것이 어려웠습니다.
+  > 최대한 css를 비슷한 환경으로 세팅해서 각 구간의 픽셀 매칭을 구현하는 부분이 어려웠습니다.  
+  > 움직이는 슬라이더의 slider Thumb 가 끝점에 닿았을 때의 원이 슬라이더 바의 끝에 걸려 실질적으로 flex로 구현하는 css에서의 픽셀 매칭이 어려운 부분이 있었습니다.
+  > 브라우저 호환성을 생각하여 css를 작성하는 부분이 어려웠습니다. chorom과 safari에서는 slider의 진행에 색상 주는 것을 uperSlider라는 arrowfunction을 만들어 box-shadow값을 이용하여 슬라이더를 표현하는 것이 어려웠고, Firefox를 브라우저를 받아 css를 수정하며 브라우저의 호환성의 문제도 항상 생각해야 하는 것을 알게 되었습니다.
 
   ```javascript
   const uperSlider = (color, size) => {
@@ -101,7 +100,7 @@ App.js form.js 안에 기능 컴포넌트들을 작성하여 동일한 레이아
   ```
 
   > Input에서는 위의 4가지의 state를 이용하여 input 컴포넌트를 구성하였습니다.
-  > 이메일 체크 기능은 Input의 onChange를 이용 변경되는 값을 checkRgexEmail에서 정규식을 통해 값을 체크 값의 조건에 부합하면 setVaildEmail을 true로 변경하고 이메일 인풋에 있는 icon의 색상을 변경하여 이메일 형식과 맞으면 자동으로 체크 됩니다.
+  > 이메일 체크 기능은 Input의 onChange를 이용 변경되는 값을 checkRgexEmail에서 정규식을 통해 값을 체크 값의 조건에 부합하면 setVaildEmail을 true로 변경하고 이메일 인풋에 있는 icon의 색상을 변경하여 이메일 형식과 맞으면 자동으로 체크됩니다.
 
   ```javascript
   const checkRgexEmail = e => {
@@ -115,16 +114,25 @@ App.js form.js 안에 기능 컴포넌트들을 작성하여 동일한 레이아
   };
   ```
 
-  > onBlur를 사용하여 포커스가 풀리게 되면 이메일 형식과 맞지 않는경우 invaild e-mail address를 띄워줍니다.
-  > password Input는 눈모양 Icon에 onClick이벤트를 줘서 className을 변경하는 방식으로 비밀번호 노출 여부를 설정하였습니다.
+  > onBlur를 사용하여 포커스가 풀리게 되면 이메일 형식과 맞지 않는 경우 인풋 하단에 invaild e-mail address를 띄워줍니다.
+  > password Input은 눈모양 Icon에 onClick 이벤트를 줘서 className을 변경하는 방식으로 비밀번호 노출 여부를 설정하였습니다.
 
-  ### 어려웠던점
+  어려웠던점
 
-  > 기능 자체는 간단하다고 생각하였는데. styled-component를 쓰다보니 렌더링해주는 테그들이 복잡하다는 생각이 많이 들었습니다. 아이템들을 감싸는 테그들을 생성할때 styled를 사용할지 아니면 그냥 의미없는 div테그들을 감싸야 하는건지 혼자서 판단하기 어려운 부분이 항상 있는 것 같습니다.
+  > 기능 자체는 간단하다고 생각하였는데. styled-component를 쓰다 보니 테그들이 복잡하다는 생각이 많이 들었습니다. 아이템들을 감싸는 테그들을 생성할 때 styled를 사용할지 아니면 그냥 의미 없는 div테그들을 감싸야 하는 건지 혼자서 판단하기 어려운 부분이 항상 있는 것 같습니다.
 
 - dropdown.js
 
   ```javascript
+  // 드롭다운 메뉴
+  const dropDownArr = [
+    'BTCUSD.PERP',
+    'ETHUSD.PERP',
+    'BCHUSD.PERP',
+    'LTCUSD.PERP',
+    'XRPUSD.PERP',
+    '1000SHIBUSD.PERP',
+  ];
   const [isOpen, setIsOpen] = useState(false); // dropdown 메뉴 오픈 여부
   const [searchText, setSearchText] = useState(''); // 현재 검색값
   const [selectedText, setSelectedText] = useState('All Symbols'); // 선택된 값
@@ -133,10 +141,10 @@ App.js form.js 안에 기능 컴포넌트들을 작성하여 동일한 레이아
   const wrapRef = useRef(null);
   ```
 
-  > dropdown에서는 위의 state값과 ref 값을 이용하여 이용하여 컴포넌트를 구성하였습니다.
+  > dropdown 에서는 위의 state 값과 ref 값을 이용하여 컴포넌트를 구성하였습니다.
   > 드롭다운을 누르면 isOpen값이 true로 변경되면서 선택창이 펼쳐집니다.
-  > 선택창이 열리면 input에 자동으로 focus가 되어 있어 바로 입력이 가능하게 되어 있습니다.
-  > Input창에 값을 입력하면 makeMenu를 통해 searchText값과 dropDownArr와 비교 하여 map을 통해 컴포넌트를 생성하도록 만들었습니다.
+  > 선택 창이 열리면 input에 자동으로 focus가 되어 있어 바로 입력이 가능하게 되어 있습니다.
+  > Input창에 값을 입력하면 makeMenu를 통해 searchText값과 dropDownArr와 비교하여 map을 통해 테그를 생성하도록 만들었습니다.
 
   ```javascript
   // search 기능 : searchText를 indexOf로 비교하여 menu를 출력
@@ -159,12 +167,12 @@ App.js form.js 안에 기능 컴포넌트들을 작성하여 동일한 레이아
   ```
 
   > 검색하는 상태에서 allSymbols를 선택하게 되면 isall, selectedText, searchText를 초기화 시켜 줍니다.
-  > 드롭다운 선택창의 바깥 레이아웃을 선택하면 선택창을 닫을 수 있습니다.
+  > 드롭다운 선택 창의 바깥 레이아웃을 선택하면 선택 창을 닫을 수 있습니다.
 
-### 어려웠던점
+어려웠던점
 
-> 드롭다운이 열렸을때 input의 값을 바로 입력 할 수 없는게 사용성에 불편하다 생각하여 input 창에 바로 포커스가 가도록 하는 것을 구현하는게 어려웠습니다.
-> 해결 방법은 컴포넌트가 드롭다운이 열렸을때 랜더링이 되기 때문에 useEffect 훅을 이용하여 input에 useRef를 이용 dom요소를 받아 해당 input에 포커스를 주는 방식으로 해결 하였습니다.
+> 드롭다운이 열렸을 때 input의 값을 바로 입력할 수 없어 사용성에 불편하다고 생각하여 input 창에 바로 포커스가 가도록 하는 것을 구현하는 게 어려웠습니다.
+> 해결 방법은 컴포넌트가 드롭다운이 열렸을 때 랜더링이 되기 때문에 useEffect 훅을 이용하여 input에 useRef를 이용 dom 요소를 받아 해당 input에 포커스를 주는 방식으로 해결하였습니다.
 
 ```javascript
 // isOpen값이 변경될때 Input의 ref값을 이용하여 테그에 focus를 준다.
@@ -173,10 +181,10 @@ useEffect(() => {
 }, [isOpen]);
 ```
 
-> 드롭다운이 열렸을때 allSymbols를 선택하는 경우에는 선택 메뉴를 전부 보여주게되는데 드롭다운 컴포넌트의 초기 시작이 allSymbols가 선택되어 있는 상태였기 때문에 이부분을 구현하였습니다.
+> 드롭다운이 열렸을때 allSymbols를 선택하는 경우에는 선택 메뉴를 전부 보여주게 되는데 드롭다운 컴포넌트의 초기 시작이 allSymbols가 선택된 상태였기 때문에 이 부분을 구현하였습니다.
 > react 공식 문서에서 소개되어 있어 useEffect를 사용하여 코드를 짰습니다.
-> 리랜더링이 될때 반응하여 mousedown이 발생할 때마다 clickOutside가 호출합니다.
-> 이때 document.addEventListener가 스스로 종료되지 않아 이것을 useeffect에서 언마운트 처리가 필요하여 cleanup 함수인 document.removeEventListener 통해 이벤트 리스너를 종료 컴포넌트가 사라질 때 cleanup 함수가 호출되게 코드를 짜는 것이 어려운 부분이였습니다.
+> 리 랜더링이 될 때 반응하여 mousedown이 발생할 때마다 clickOutside가 호출합니다.
+> 이때 document.addEventListener가 스스로 종료되지 않아 이것을 useeffect에서 언 마운트 처리가 필요하여 cleanup 함수인 document.removeEventListener 통해 이벤트 리스너를 종료 컴포넌트가 사라질 때 cleanup 함수가 호출되게 코드를 짜는 것이 어려운 부분이었습니다.
 
 ```javascript
 // dropdown의 외부 요소를 선택하면 메뉴를 닫아 주는 기능
