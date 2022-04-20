@@ -169,36 +169,36 @@ App.js form.js 안에 기능 컴포넌트들을 작성하여 동일한 레이아
   > 검색하는 상태에서 allSymbols를 선택하게 되면 isall, selectedText, searchText를 초기화 시켜 줍니다.
   > 드롭다운 선택 창의 바깥 레이아웃을 선택하면 선택 창을 닫을 수 있습니다.
 
-어려웠던점
+  어려웠던점
 
-> 드롭다운이 열렸을 때 input의 값을 바로 입력할 수 없어 사용성에 불편하다고 생각하여 input 창에 바로 포커스가 가도록 하는 것을 구현하는 게 어려웠습니다.
-> 해결 방법은 컴포넌트가 드롭다운이 열렸을 때 랜더링이 되기 때문에 useEffect 훅을 이용하여 input에 useRef를 이용 dom 요소를 받아 해당 input에 포커스를 주는 방식으로 해결하였습니다.
+  > 드롭다운이 열렸을 때 input의 값을 바로 입력할 수 없어 사용성에 불편하다고 생각하여 input 창에 바로 포커스가 가도록 하는 것을 구현하는 게 어려웠습니다.
+  > 해결 방법은 컴포넌트가 드롭다운이 열렸을 때 랜더링이 되기 때문에 useEffect 훅을 이용하여 input에 useRef를 이용 dom 요소를 받아 해당 input에 포커스를 주는 방식으로 해결하였습니다.
 
-```javascript
-// isOpen값이 변경될때 Input의 ref값을 이용하여 테그에 focus를 준다.
-useEffect(() => {
-  if (inputRef.current !== null) inputRef.current.focus();
-}, [isOpen]);
-```
+  ```javascript
+  // isOpen값이 변경될때 Input의 ref값을 이용하여 테그에 focus를 준다.
+  useEffect(() => {
+    if (inputRef.current !== null) inputRef.current.focus();
+  }, [isOpen]);
+  ```
 
-> 드롭다운이 열렸을때 allSymbols를 선택하는 경우에는 선택 메뉴를 전부 보여주게 되는데 드롭다운 컴포넌트의 초기 시작이 allSymbols가 선택된 상태였기 때문에 이 부분을 구현하였습니다.
-> react 공식 문서에서 소개되어 있어 useEffect를 사용하여 코드를 짰습니다.
-> 리 랜더링이 될 때 반응하여 mousedown이 발생할 때마다 clickOutside가 호출합니다.
-> 이때 document.addEventListener가 스스로 종료되지 않아 이것을 useeffect에서 언 마운트 처리가 필요하여 cleanup 함수인 document.removeEventListener 통해 이벤트 리스너를 종료 컴포넌트가 사라질 때 cleanup 함수가 호출되게 코드를 짜는 것이 어려운 부분이었습니다.
+  > 드롭다운이 열렸을때 allSymbols를 선택하는 경우에는 선택 메뉴를 전부 보여주게 되는데 드롭다운 컴포넌트의 초기 시작이 allSymbols가 선택된 상태였기 때문에 이 부분을 구현하였습니다.
+  > react 공식 문서에서 소개되어 있어 useEffect를 사용하여 코드를 짰습니다.
+  > 리 랜더링이 될 때 반응하여 mousedown이 발생할 때마다 clickOutside가 호출합니다.
+  > 이때 document.addEventListener가 스스로 종료되지 않아 이것을 useeffect에서 언 마운트 처리가 필요하여 cleanup 함수인 document.removeEventListener 통해 이벤트 리스너를 종료 컴포넌트가 사라질 때 cleanup 함수가 호출되게 코드를 짜는 것이 어려운 부분이었습니다.
 
-```javascript
-// dropdown의 외부 요소를 선택하면 메뉴를 닫아 주는 기능
-useEffect(() => {
-  const clickOutside = e => {
-    if (isOpen && !wrapRef.current.contains(e.target)) {
-      setIsOpen(false);
-    }
-  };
-  // Bind the event listener
-  document.addEventListener('mousedown', clickOutside);
-  // Unbind the event listener on clean up
-  return () => {
-    document.removeEventListener('mousedown', clickOutside);
-  };
-});
-```
+  ```javascript
+  // dropdown의 외부 요소를 선택하면 메뉴를 닫아 주는 기능
+  useEffect(() => {
+    const clickOutside = e => {
+      if (isOpen && !wrapRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    // Bind the event listener
+    document.addEventListener('mousedown', clickOutside);
+    // Unbind the event listener on clean up
+    return () => {
+      document.removeEventListener('mousedown', clickOutside);
+    };
+  });
+  ```
