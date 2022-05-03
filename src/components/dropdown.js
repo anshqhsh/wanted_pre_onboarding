@@ -101,7 +101,7 @@ const DropDown = () => {
   // dropdown의 외부 요소를 선택하면 메뉴를 닫아 주는 기능
   useEffect(() => {
     const clickOutside = e => {
-      if (isOpen && !wrapRef.current.contains(e.target)) {
+      if (isOpen && !wrapRef.current.contains(e.currentTarget)) {
         setIsOpen(false);
       }
     };
@@ -169,7 +169,7 @@ const DropDown = () => {
                 ref={inputRef} // focus를 위한 Ref
                 onChange={e => {
                   setIsAll(false); // 입력이 시작하면 all 셋팅을 false 글씨를 text에 셋팅
-                  setSearchText(e.target.value);
+                  setSearchText(e.currentTarget.value);
                 }}
               />
             </InputWrap>

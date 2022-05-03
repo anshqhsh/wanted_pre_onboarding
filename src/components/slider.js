@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { colorCode } from '../common/color';
 
@@ -163,6 +163,7 @@ const Slider = () => {
     ));
     return circles;
   };
+  // useMemo 추가 하기저렇게 내용물 많은 함수 경우 useMemo 감싸주자 렌더 될 때 마다 계속 다시 그림
   const makeValuebtn = arr => {
     const valueBtn = arr.map((value, i) => (
       <SliderValueBtn
@@ -170,10 +171,13 @@ const Slider = () => {
         onClick={() => {
           setValue(value);
         }}
-      >{`${Math.ceil(value / 10)}%`}</SliderValueBtn>
+      >
+        {Math.ceil(value / 10)}%
+      </SliderValueBtn>
     ));
     return valueBtn;
   };
+
   return (
     <Container>
       <Wrap>

@@ -82,7 +82,7 @@ const Input = () => {
   // 이메일 정규식으로 형태 판별
   const checkRgexEmail = e => {
     const regex =
-      /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i; // email regex w3c 표준 정규식이 있음
     if (regex.test(e)) {
       setVaildEmail(true);
     } else {
@@ -100,10 +100,10 @@ const Input = () => {
               type="text"
               placeholder="Email"
               onChange={e => {
-                checkRgexEmail(e.target.value);
+                checkRgexEmail(e.currentTarget.value);
               }}
               onBlur={e => {
-                setEmailTxt(e.target.value); // onchange에서 state를 변경해주면 component의 렌더링이 일어나 Input밖을 선택했을때 text를 set
+                setEmailTxt(e.currentTarget.value); // onchange에서 state를 변경해주면 component의 렌더링이 일어나 Input밖을 선택했을때 text를 set
                 !vaildEmail ? setPrintMsg(true) : setPrintMsg(false);
               }}
             ></ItemInput>
